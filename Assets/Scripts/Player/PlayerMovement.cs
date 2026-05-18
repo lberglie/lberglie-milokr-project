@@ -18,6 +18,7 @@ public class PlayerMovement : NetworkBehaviour
     // Crouching
     public float crouchHeight = 1f;
     private float standingHeight = 2f;
+    private float crouchAnimSpeed = 15f;
     private Vector3 cameraStandingPos;
     private Vector3 cameraCrouchPos;
 
@@ -184,7 +185,7 @@ public class PlayerMovement : NetworkBehaviour
         // Determine current speed based on input states
         float currentSpeed = baseSpeed;
         if (isCrouched.Value) currentSpeed = crouchSpeedMult * baseSpeed;
-        else if (sprintAction.IsPressed()) currentSpeed = sprintSpeedMult;
+        else if (sprintAction.IsPressed()) currentSpeed = sprintSpeedMult * baseSpeed;
 
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 moveDirection = transform.right * input.x + transform.forward * input.y;
@@ -228,12 +229,12 @@ public class PlayerMovement : NetworkBehaviour
         if (isCrouched.Value)
         {
             capsuleCollider.height = crouchHeight;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, cameraCrouchPos, Time.deltaTime * 10f);
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, cameraCrouchPos, Time.deltaTime * crouchAnimSpeed);
         }
         else
         {
             capsuleCollider.height = standingHeight;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, cameraStandingPos, Time.deltaTime * 10f);
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, cameraStandingPos, Time.deltaTime * crouchAnimSpeed);
         }
     }
 

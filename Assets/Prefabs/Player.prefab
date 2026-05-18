@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1377847904
+  GlobalObjectIdHash: 2459907496
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -460,7 +460,7 @@ MonoBehaviour:
   baseSpeed: 5
   sprintSpeedMult: 1.5
   crouchSpeedMult: 0.5
-  jumpForce: 200
+  jumpForce: 50
   isGrounded: 0
   crouchHeight: 1
   groundCheck: {fileID: 4374214014559621862}
@@ -643,27 +643,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7566247093866853075, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.263
+      value: 2.269
       objectReference: {fileID: 0}
     - target: {fileID: -7566247093866853075, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.845
+      value: -1.078
       objectReference: {fileID: 0}
     - target: {fileID: -7566247093866853075, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.326
+      value: 1.303
       objectReference: {fileID: 0}
     - target: {fileID: -4346618917605957547, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.521
+      value: 0.5270002
       objectReference: {fileID: 0}
     - target: {fileID: -4346618917605957547, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.929
+      value: -1.1620002
       objectReference: {fileID: 0}
     - target: {fileID: -4346618917605957547, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.565
+      value: 0.5419999
       objectReference: {fileID: 0}
     - target: {fileID: -4346618917605957547, guid: 74a4a21b2b1b6d4419594e338c7cb22f, type: 3}
       propertyPath: m_LocalRotation.w
