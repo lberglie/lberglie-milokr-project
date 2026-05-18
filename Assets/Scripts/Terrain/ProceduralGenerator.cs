@@ -17,6 +17,9 @@ public class ProceduralGenerator : MonoBehaviour
     // Public seed property, settable from outside
     public int Seed = 0;
 
+    // grid is accessible so pathfinding can use it
+    public int[,] grid {  get; set; }
+
     struct Room
     {
         public int x, y;       // top left corner of the room
@@ -28,7 +31,7 @@ public class ProceduralGenerator : MonoBehaviour
         }
     }
 
-    int[,] grid = new int[50, 50];
+   
     List<Room> rooms = new List<Room>();
 
     // Local System.Random instance for deterministic generation
