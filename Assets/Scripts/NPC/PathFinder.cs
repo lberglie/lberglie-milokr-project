@@ -16,7 +16,11 @@ public class PathFinder
             }
         }
 
-        List<Node> open = new List<Node>();
+        if (!nodes[startPos.x, startPos.y].walkable || !nodes[endPos.x, endPos.y].walkable) {
+            return null;
+        }
+
+            List<Node> open = new List<Node>();
         List<Node> closed = new List<Node>();
 
         open.Add(nodes[startPos.x, startPos.y]);
