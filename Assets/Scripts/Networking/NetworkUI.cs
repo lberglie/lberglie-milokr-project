@@ -6,16 +6,22 @@ using TMPro;
 
 public class NetworkUI : MonoBehaviour
 {
-    [Header("UI References")]
+
     public TMP_InputField ipInputField;
+    public TMP_InputField seedInputField;
     public Button hostButton;
     public Button joinButton;
     public GameObject uiPanel;
+    public Camera placeholderCamera;
+    
+    public ProceduralGenerator generator;
 
     void Start()
     {
         // Set default IP
         ipInputField.text = "127.0.0.1";
+
+        seedInputField.text = "0";
 
         hostButton.onClick.AddListener(StartHost);
         joinButton.onClick.AddListener(StartClient);
@@ -24,6 +30,7 @@ public class NetworkUI : MonoBehaviour
     private void StartHost()
     {
         SetIP();
+        generator.GenerateWorld();
         NetworkManager.Singleton.StartHost();
         HideUI();
     }
@@ -44,5 +51,6 @@ public class NetworkUI : MonoBehaviour
     private void HideUI()
     {
         if (uiPanel != null) uiPanel.SetActive(false);
+        if (placeholderCamera != null) placeholderCamera.gameObject.SetActive(false);
     }
 }

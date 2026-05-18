@@ -3,12 +3,19 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
+using TMPro;
 
 public class ProceduralGenerator : MonoBehaviour
 {
-
     [SerializeField] GameObject FloorObject;
     [SerializeField] GameObject WallObject;
+    [SerializeField] bool SpawnRoof = false; // Checkbox for roof instantiation
+    [SerializeField] float RoofHeight = 8f; // Configurable roof height
+
+    public TMP_InputField seedInputField;
+
+    // Public seed property, settable from outside
+    public int Seed = 0;
 
     struct Room
     {
@@ -24,11 +31,19 @@ public class ProceduralGenerator : MonoBehaviour
     int[,] grid = new int[50, 50];
     List<Room> rooms = new List<Room>();
 
+    // Local System.Random instance for deterministic generation
+    private System.Random rng;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void GenerateWorld()
     {
-        // generate rooms on grid sized x*x with width/height between 1 and y, with z attempts to generate rooms
+        grid = new int[50, 50];
+        rooms.Clear();
+        rng = (seedInputField != null) ? new System.Random(int.Parse(seedInputField.text)) : new System.Random(0);
+        Debug.Log($"Using seed: {rng.GetHashCode()}");
+        // Reserve 2x2 spawn room at (24,24), (24,25), (25,24), (25,25)
+        for (int i = 24; i <= 25; i++)
+            for (int j = 24; j <= 25; j++)
+                grid[i, j] = 1;
         GenerateRooms(50, 10, 20);
         List<(Room, Room)> connections = CreateConnectionList();
         foreach (var (a, b) in connections)
@@ -37,41 +52,43 @@ public class ProceduralGenerator : MonoBehaviour
             Vector2Int endPos = b.Center();
             ConnectRooms(startPos, endPos);
         }
+        ConnectMiddleToClosestRoom();
         PlaceWalls(50);
         SpawnTiles(50);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void GenerateRooms(int gridSize, int roomSize, int amountOfRoomGenerations)
     {
-        // generate specified amount of random rooms with random width and height between 1 and 10, and random x and y position between 0 and 50.
         for (int i = 0; i < amountOfRoomGenerations; i++)
         {
-            int x = Random.Range(0, gridSize);
-            int y = Random.Range(0, gridSize);
-            int width = Random.Range(1, roomSize);
-            int height = Random.Range(1, roomSize);
+            int x = rng.Next(0, gridSize);
+            int y = rng.Next(0, gridSize);
+            int width = rng.Next(1, roomSize);
+            int height = rng.Next(1, roomSize);
             bool valid = false;
 
-            // check if the room is within bounds of the grid. if it is, mark all cells in the room as floor (1)
+            // check if the room is within bounds of the grid
             if (x + width < 50 && y + height < 50)
             {
                 valid = true;
-                foreach (Room otherRoom in rooms)
+                // Prevent overlap with spawn room (24,24)-(25,25)
+                if (!(x + width > 24 && x < 26 && y + height > 24 && y < 26))
                 {
-                    if (x < otherRoom.x + otherRoom.width
-                        && x + width > otherRoom.x
-                        && y < otherRoom.y + otherRoom.height
-                        && y + height > otherRoom.y)
+                    foreach (Room otherRoom in rooms)
                     {
-                        valid = false;
-                        break;
+                        if (x < otherRoom.x + otherRoom.width
+                            && x + width > otherRoom.x
+                            && y < otherRoom.y + otherRoom.height
+                            && y + height > otherRoom.y)
+                        {
+                            valid = false;
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    valid = false;
                 }
             }
 
@@ -181,12 +198,44 @@ public class ProceduralGenerator : MonoBehaviour
                 if (grid[i, j] == 1)
                 {
                     Instantiate(FloorObject, new Vector3(i*8, 0, j*8), Quaternion.identity, transform);
+                    if (SpawnRoof)
+                        Instantiate(WallObject, new Vector3(i*8, RoofHeight, j*8), Quaternion.identity, transform);
                 }   
                 else if (grid[i, j] == 2)
                 {
                     Instantiate(WallObject, new Vector3(i*8, 0, j*8), Quaternion.identity, transform);
+                    if (SpawnRoof)
+                        Instantiate(WallObject, new Vector3(i*8, RoofHeight, j*8), Quaternion.identity, transform);
                 }
             }
         }
+    }
+
+    // Connect the middle of the spawn room to the closest room with a floor corridor
+    void ConnectMiddleToClosestRoom()
+    {
+        Vector2Int middle = new Vector2Int(25, 25);
+        grid[24, 24] = 1;
+        grid[24, 25] = 1;
+        grid[24, 26] = 1;
+        grid[25, 24] = 1;
+        grid[25, 25] = 1;
+        grid[25, 26] = 1;
+        grid[26, 24] = 1;
+        grid[26, 25] = 1;
+        grid[26, 26] = 1;
+        if (rooms.Count == 0) return;
+        Room closest = rooms[0];
+        float minDist = Vector2Int.Distance(middle, rooms[0].Center());
+        foreach (var room in rooms)
+        {
+            float dist = Vector2Int.Distance(middle, room.Center());
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = room;
+            }
+        }
+        ConnectRooms(middle, closest.Center());
     }
 }
