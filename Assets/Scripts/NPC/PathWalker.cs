@@ -6,8 +6,7 @@ public class PathWalker : MonoBehaviour
 
     [SerializeField] float speed = 5f;
     [SerializeField] ProceduralGenerator proceduralGenerator;
-    [SerializeField] GameObject player1;
-    [SerializeField] GameObject player2; // does not do anything (for now)
+
 
     List<Vector2Int> path;
     int currentPathIndex;
@@ -15,6 +14,8 @@ public class PathWalker : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameObject player1 = GameObject.FindWithTag("Player (Clone)");
+        GameObject player2 = GameObject.FindWithTag("Player (Clone)(1)"); // unused (for now) 
         Vector2Int startGrid = WorldToGrid(transform.position);
         Vector2Int endGrid = WorldToGrid(player1.transform.position);
         path = PathFinder.FindShortestPath(startGrid, endGrid, proceduralGenerator.grid);
