@@ -6,7 +6,7 @@
 > **STATUS: Pre-Alpha / Early Prototype** > This game is currently in active early development. Features, mechanics, and assets are subject to change.
 
 ![Latest screenshots:](https://media.githubusercontent.com/media/lberglie/lberglie-milokr-project/main/Assets/Showcase/Untitaefaeaeffled.png)
-![](https://media.githubusercontent.com/media/lberglie/lberglie-milokr-project/main/Assets/Showcase/Screenshot%202026-05-20%20020839.png)
+![](https://media.githubusercontent.com/media/lberglie/lberglie-milokr-project/main/Assets/Showcase/Screenshot%202026-05-20%20020840.png)
 ![](https://media.githubusercontent.com/media/lberglie/lberglie-milokr-project/main/Assets/Showcase/Untitaefaefled.png)
 
 ## About the Game
