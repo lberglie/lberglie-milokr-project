@@ -803,7 +803,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9112759, z: -0, w: -0.41179627}
-  m_LocalPosition: {x: 210.31004, y: 3.11, z: 206.9}
+  m_LocalPosition: {x: 209.57, y: 3.11, z: 206.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2207,7 +2207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralGenerator
   FloorObject: {fileID: 1420707320676798401, guid: 300e9b8ae3e6deb49a762f919a3eb741, type: 3}
   WallObject: {fileID: 7823260137000091530, guid: f650a8715b59ce94f949fe118ba19a6d, type: 3}
-  SpawnRoof: 1
+  SpawnRoof: 0
   RoofHeight: 8
   seedInputField: {fileID: 1476761153}
   Seed: 0
